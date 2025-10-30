@@ -24,6 +24,7 @@
 ---
 
 ## 🚀 Getting Started  
+**Python version:** 3.13+
 ```bash
 pip install -r requirements.txt
 cd nflows

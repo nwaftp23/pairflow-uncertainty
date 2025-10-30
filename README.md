@@ -23,22 +23,21 @@
 ---
 
 ## 🚀 Getting Started  
-
-# Install dependencies
+```bash
 pip install -r requirements.txt
 cd nflows
 pip install -e .
-
+```
 ---
 
 ## Nflows Base
-
+```
 python main.py --base_distro --model nflows_ensemble --num_layers 1 --hids 50 --env Humanoid-v2 --ensemble_size 5 --points_2_add 10 --acquisition_function kl_exp
-
+```
 ## Nflows Out
-
+```
 python main.py --model nflows_ensemble --num_layers 1 --hids 50 --env Humanoid-v2 --ensemble_size 5 --points_2_add 10 --acquisition_function kl_exp
-
+```
 ---
 
 | **Flag** | **Description** | **Possible Values** |
@@ -48,6 +47,5 @@ python main.py --model nflows_ensemble --num_layers 1 --hids 50 --env Humanoid-v
 | `--env` | Environment / dataset | `Pendulum-v0`, `Hopper-v2`, `Humanoid-v2`, `Ant-v2`, `bimodal`, `hetero` |
 
 
-Note that acquisition_function set to kl_exp or bhatt_exp corresponds to kl and bhatt pairepests respectively. 
-
+Note that setting `--acquisition_function` to `kl_exp` or `bhatt_exp` corresponds to using the KL or Bhattacharyya PairEpEsts, respectively.
 

@@ -1,6 +1,7 @@
 # Code for efficient Epistemic Uncertainty Estimation in Probabilistic Ensembles  
 *Authors: Lucas Berry & David Meger*  
-*Affiliation: McGill University — Centre for Intelligent Machines*
+*Affiliation: McGill University — Centre for Intelligent Machines*  
+📧 Contact: [lucas.berry@mail.mcgill.ca](mailto:lucas.berry@mail.mcgill.ca)
 
 ---
 

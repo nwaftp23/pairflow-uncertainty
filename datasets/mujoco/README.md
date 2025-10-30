@@ -10,3 +10,7 @@ The datasets used in our experiments were constructed to introduce **domain shif
 
 This design introduces a clear **distributional shift** between the random-policy training data and the expert-policy test data.  
 Such a setup challenges the acquisition functions to effectively **identify and isolate expert-like samples** within the oracle dataset — a crucial ability for robust uncertainty estimation and data selection.
+
+
+> **Note:** The `Humanoid-v2` dataset is not included in this repository due to its large size.  
+> If you would like access to this dataset, please contact the authors at [lucas.berry@mail.mcgill.ca](mailto:lucas.berry@mail.mcgill.ca).

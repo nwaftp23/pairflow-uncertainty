@@ -16,14 +16,14 @@ from nflows_utils import build_nflows_ensemble
 class nflows_ensemble(base_model):
     def __init__(self, num_layers, hids, dims, context_dims, 
             bins, tail, lr, device, input_preproc, output_preproc, 
-            rqs =True, multihead=False, fixed_masks=False, ensemble_size=15):
-        base_ensemble = True
+            rqs =True, multihead=False, fixed_masks=False, ensemble_size=15,
+            base_ensemble=True):
         if ensemble_size == 1:
-            base_ensemble == False
+            base_ensemble = False
         self.model = build_nflows_ensemble(num_layers=num_layers, hids=hids, 
                 dims=dims, context_dims=context_dims, batch_norm=False, 
                 activation=torch.nn.functional.relu, bins = bins, tail=tail, 
-                device = device, rqs =rqs, base=base_ensemble, flows=False, 
+                device = device, rqs =rqs, base=base_ensemble, 
                 multihead=multihead, fixed_masks=fixed_masks, 
                 ensemble_size=ensemble_size).to(device)
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=lr)

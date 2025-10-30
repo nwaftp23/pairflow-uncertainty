@@ -36,7 +36,7 @@ def build_nflows_ensemble(num_layers=2, hids=20, dims=2, context_dims=2,
     transforms = []
 
     
-    if flows:
+    if not base:
         def create_net(in_features, out_features):
             return Linear_2L(in_features, out_features, hids, 0.5,
                     context_dims, fixed_masks=fixed_masks, 
@@ -74,7 +74,6 @@ def build_nflows_ensemble(num_layers=2, hids=20, dims=2, context_dims=2,
                  activation = activation,
                  use_residual_blocks = False,
                  ensemble = flows)) 
-                 #create_context_net = create_net))
     transform = nflows.transforms.CompositeTransform(transforms)
 
     flow = nflows.flows.Flow(transform, base_dist)
@@ -106,12 +105,7 @@ class Linear_2L(nn.Module):
             self.fc3 = nn.Linear(n_hid, output_dim)
 
         self.different_heads = different_heads
-        # choose your non linearity
-        # self.act = nn.Tanh()
-        # self.act = nn.Sigmoid()
         self.act = nn.ReLU()
-        # self.act = nn.ELU(inplace=True)
-        # self.act = nn.SELU(inplace=True)
         self.mc_drop = mc_drop
         self.fixed_masks = fixed_masks
         if fixed_masks:

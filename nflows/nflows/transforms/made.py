@@ -297,7 +297,7 @@ class MADE(nn.Module):
         outputs = self.final_layer(temps)
         return outputs
 
-    def create_masks(self, num_masks=5, device='gpu'):
+    def create_masks(self, num_masks=5, device='cuda'):
         masks = []
         for i in range(num_masks):
             mask_l1 = torch.bernoulli(torch.full_like(torch.ones(self.hidden_features), 0.5))\

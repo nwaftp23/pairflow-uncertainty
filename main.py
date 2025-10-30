@@ -25,7 +25,7 @@ from envs_1d import (hetero_samp, hetero_samp_unif, hetero_samp_test, bimodal_sa
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env', type=str, default="hetero", help='Environment [bimodal, hetero, WetChicken-v0, Pendulum-v0, HalfCheetah-v2, Hopper-v2]')
+    parser.add_argument('--env', type=str, default="hetero", help='Environment [bimodal, hetero, Pendulum-v0, Hopper-v2, Ant-v2, Humanoid-v2]')
     parser.add_argument('--seed', type=int, default=1456, help='random seed (default: 123456)')
     parser.add_argument('--num_layers', default=1, help='total number of flows', type = int)
     parser.add_argument('--hids', type = int, default = 50, help='hidden units in flows')
@@ -37,18 +37,15 @@ if __name__ == '__main__':
     parser.add_argument('--epochs_multiplier', type=int, default=100, help='number of printouts')
     parser.add_argument('--cuda', action="store_true", help='run on CUDA (default: False)')
     parser.add_argument('--rqs', action="store_true", help='rational quadratic or cubic spline')
-    parser.add_argument('--dropout_masks', action="store_true", help='fixed set of dropout masks')
     parser.add_argument('--base_distro', action="store_true", help='ensemble in base distro')
     parser.add_argument('--acquisition_function', type=str, default='sample_bald', help='how to acquire new points')
     parser.add_argument('--test_num_samples', action="store_true", help='test different number of samples for MC on Hopper-v2')
     parser.add_argument('--numb_samps', type=int, default=10, help='numb samps for MC test num_samples')
     parser.add_argument('--save_model', action= 'store_true', help='save model or not')
-    parser.add_argument('--bootstrap', action= 'store_true', help='whether or not to bootstrap the data, used for model PE')
     parser.add_argument('--noise_weight', type=float, default=0.2, help='how much noise to add in')
     parser.add_argument('--modes', default=0, type=int, help='number of modes in noise to simulate chaotic dynamics')
     parser.add_argument('--replay_size', type=int, default=1000000, help='size of replay buffer (default: 10000000)')
     parser.add_argument('--data_size', type=int, default=200, help='controls size of the data (negative number use all data)')
-    parser.add_argument('--uncertain_nflows', action="store_true", help='uncertainty in nflow layers')
     parser.add_argument('--points_2_add', type=int, default=10, help='how many new points to acquire')
     args = parser.parse_args()
     print(args)
@@ -104,18 +101,17 @@ if __name__ == '__main__':
         train_set_size = [len(train_data[0])]
     else:
         one_d =  False
-        memory = ReplayMemory(args.replay_size, args.batch_size, bootstrap = args.bootstrap,
+        memory = ReplayMemory(args.replay_size, args.batch_size, 
             ensemble_size = args.ensemble_size, shuffle = True)
         load_mem_uncertain(args, memory, env_dir)
-        test_memory = ReplayMemory(args.replay_size, 1028, bootstrap = args.bootstrap,
+        test_memory = ReplayMemory(args.replay_size, 1028,
                 ensemble_size = args.ensemble_size, shuffle = False)
         load_mem_uncertain(args, test_memory, env_dir, dataset='test')
         if args.data_size > 0:
             memory.reduce_buffer(args.data_size)
         test_memory.reduce_buffer(2000)
         oracle_memory = ReplayMemory(args.replay_size, args.batch_size,
-            bootstrap = args.bootstrap, ensemble_size = args.ensemble_size,
-            shuffle = False)
+            ensemble_size = args.ensemble_size, shuffle = False)
         load_mem_uncertain(args, oracle_memory, env_dir, dataset='oracle')
         oracle_memory.remove_portion(memory.buffer)
         # Correction for contact forces which were broken in Mujoco v2
@@ -256,3 +252,5 @@ if __name__ == '__main__':
         model = instantiate_model(args, output_dim, context_dims, device, normalize,
             normalize)
         print("-----------------------------------------------")
+
+

@@ -98,11 +98,11 @@ class pens(base_model):
                 self.optimizer.step()
                 running_train_loss += loss.cpu().detach()*states.shape[0]
                 total_inputs += states.shape[0]
-                if (epoch + 1) % int(epochs/5) == 0:
-                    progress = (epoch / epochs) * 100
-                    rounded_progress = round(progress / 20) * 20
-                    print(f'training {rounded_progress}% complete loss: {train_loss.item()}')
             running_train_loss = running_train_loss/total_inputs
+            if (epoch + 1) % int(epochs/5) == 0:
+                progress = (epoch / epochs) * 100
+                rounded_progress = round(progress / 20) * 20
+                print(f'training {rounded_progress}% complete loss: {loss.item()}')
             train_losses.append(running_train_loss)
         return train_losses
     

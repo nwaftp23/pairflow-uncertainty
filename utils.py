@@ -148,8 +148,7 @@ def gen_folder_uncertain(args):
     branch_folder = args.env
     sub_branch_folder = args.model
     if sub_branch_folder in ['nflows_ensemble', 'nn_ensemble']:
-        if args.dropout_masks:
-            sub_branch_folder += '_fixedmasks'
+        sub_branch_folder += '_fixedmasks'
     if args.test_num_samples:
         branch_folder += '_test_numsamples'
         sub_branch_folder += f'_{args.acquisition_type}_numb_samps_{args.numb_samps}'
@@ -176,14 +175,15 @@ def instantiate_model(args, output_dim, context_dim, device,
         input_preproc, output_preproc):
     if args.model == 'nflows_ensemble':
         model = nflows_ensemble(args.num_layers, args.hids, output_dim, context_dim,
-                10, 1.2, args.lr, device, input_preproc, output_preproc,
-                rqs = args.rqs, fixed_masks = args.dropout_masks, ensemble_size=args.ensemble_size)
+                    10, 1.2, args.lr, device, input_preproc, output_preproc,
+                    rqs = args.rqs, ensemble_size=args.ensemble_size, base_ensemble=args.base_distro)
     elif args.model == 'mc_drop':
         model = mc_drop(args.num_layers, args.hids, output_dim, context_dim,
             args.lr, device, input_preproc, output_preproc)
     elif args.model == 'nn_ensemble':
         model = pens(args.num_layers, args.hids, output_dim, context_dim,
             args.lr, device, input_preproc, output_preproc,
-            multihead=args.multihead, fixed_masks = args.dropout_masks,
+            multihead = False, fixed_masks = True,
             ensemble_size = args.ensemble_size)
     return model
+

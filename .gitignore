@@ -3,3 +3,4 @@ pairepests_env/*
 graphs/*
 results/*
 models/*
+datasets/mujoco/Humanoid-v2/*

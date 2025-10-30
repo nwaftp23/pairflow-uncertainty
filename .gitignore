@@ -1,0 +1,5 @@
+pairepests_env/*
+*.pyc
+graphs/*
+results/*
+models/*
